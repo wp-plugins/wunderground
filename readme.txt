@@ -12,7 +12,7 @@ Get accurate and beautiful weather forecasts powered by Wunderground.com for you
 
 <h3>Wunderground is the best weather site.</h3>
 
-__All your weather are belong to us!__ Wunderground.com has the most accurate and in-depth weather information. They're also not evil corporate giants, and are weather geeks, which is nice. 
+Wunderground.com has the most accurate and in-depth weather information. They're also not evil corporate giants, and are weather geeks, which is nice. 
 
 This plugin uses the Wunderground API to gather its accurate forcasts.
 
