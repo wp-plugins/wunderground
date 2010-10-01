@@ -170,7 +170,7 @@ class wp_wunderground {
     	if($this->showlink == 'yes') {
 			mt_srand(crc32($_SERVER['REQUEST_URI'])); // Keep links the same on the same page
 			
-			$urls = array('http://www.seodenver.com/wunderground/?ref=foot', 'http://wordpress.org/extend/plugins/wunderground/', 'http://www.denversnowremovalservice.com/weather/');
+			$urls = array('http://www.seodenver.com/wunderground/?ref=foot', 'http://wordpress.org/extend/plugins/wunderground/', 'http://www.denversnowremovalservice.com');
 			$url = $urls[mt_rand(0, count($urls)-1)];
 			$names = array('WP Wunderground', 'Wordpress Weather', 'Wunderground for WordPress');
 			$name = $names[mt_rand(0, count($names)-1)];
