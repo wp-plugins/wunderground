@@ -81,6 +81,11 @@ If you're a maniac for shortcodes, and you want all control all the time, this i
 
 == Frequently Asked Questions == 
 
+= I am unable to activate the plugin. = 
+This plugin requires PHP5, and Version 1.0 does not check for PHP compatibility. In future versions, it will show a more meaningful error and also support PHP 4.
+
+For now, however, options are to upgrade the version of PHP (contact your web host) or to not use the plugin.
+
 = I want to modify the forecast output. How do I do that? =
 
 <pre>
