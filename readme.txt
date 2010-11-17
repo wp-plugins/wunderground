@@ -81,6 +81,25 @@ If you're a maniac for shortcodes, and you want all control all the time, this i
 
 == Frequently Asked Questions == 
 
+= How do I use my own icons? =
+
+If you want to use your own icons, you would add a filter to the bottom of your theme's <code>functions.php</code> file:
+
+<pre>
+add_filter('wp_wunderground_forecast', 'use_custom_wunderground_icons');
+
+function use_custom_wunderground_icons($content=null) { 
+	
+	$myIconFolder = 'http://www.example.com/images/';
+	
+	$myFileType = '.gif';
+	
+	$content = preg_replace('/http\:\/\/icons\-ecast\.wxug\.com\/i\/c\/[a-z]\/(.*?)\.gif/ism', $myIconFolder.'$1'.$myFileType, $content);
+	
+	return $content;
+}
+</pre>
+
 = I am unable to activate the plugin. = 
 This plugin requires PHP5, and Version 1.0 does not check for PHP compatibility. In future versions, it will show a more meaningful error and also support PHP 4.
 
