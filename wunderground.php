@@ -3,7 +3,7 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.0
+Version: 1.0.1
 Author: Katz Web Services, Inc.
 Author URI: http://www.seodenver.com/
 */
@@ -23,20 +23,31 @@ class wp_wunderground {
 	var $showlink = 'yes';
 	
 	function wp_wunderground() {
-	
-		add_action('admin_menu', array(&$this, 'admin'));
-	    add_filter('plugin_action_links', array(&$this, 'settings_link'), 10, 2 );
-        add_action('admin_init', array(&$this, 'settings_init') );
-    	$this->options = get_option('wp_wunderground', array());
-        add_shortcode('forecast', array(&$this, 'build_forecast'));
-        
-        // Set each setting...
-        foreach($this->options as $key=> $value) {
-        	$this->{$key} = $value;
-        }
 		
-		if(!is_admin()) {
-			add_action('wp_footer', array(&$this,'showlink'));
+		// array_combine() is PHP5 only
+		if(!function_exists('array_combine')) {
+			add_action('admin_notices', 'wpwundergroundphp5error');
+			function wpwundergroundphp5error() {
+				$out = '<div class="error" id="messages"><p>';
+				$out .= 'The WP Wunderground plugin requires PHP5. Your server is running PHP4. Please ask your hosting company to upgrade your server to PHP5. It should be free.';
+				$out .= '</p></div>';
+				echo $out;
+			}
+		} else {
+			add_action('admin_menu', array(&$this, 'admin'));
+		    add_filter('plugin_action_links', array(&$this, 'settings_link'), 10, 2 );
+	        add_action('admin_init', array(&$this, 'settings_init') );
+	    	$this->options = get_option('wp_wunderground', array());
+	        add_shortcode('forecast', array(&$this, 'build_forecast'));
+	        
+	        // Set each setting...
+	        foreach($this->options as $key=> $value) {
+	        	$this->{$key} = $value;
+	        }
+			
+			if(!is_admin()) {
+				add_action('wp_footer', array(&$this,'showlink'));
+			}
 		}
 	}
 	
@@ -408,7 +419,7 @@ EOD;
 		if(!$todaylabel) { $todaylabel = $this->todaylabel; }
 		if(!$datelabel) { $datelabel = $this->datelabel; }
 		extract($date);
-
+		
 		try {
 			$dt = new DateTime("$year-$month-$day", new DateTimeZone($tz_long));
 			$dt->setTime($hour,$min,$sec);

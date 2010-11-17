@@ -112,10 +112,16 @@ This plugin is a perfect compliment for regional websites (about a city or town)
 
 == Changelog ==
 
+= 1.0.1 =
+* Added a check for PHP5, which is required for the plugin.
+
 = 1.0 =
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+* Added a check for PHP5, which is required for the plugin. Users will no longer get `Parse error: syntax error, unexpected '{' in {your-site}/wunderground.php on line 412` error
 
 = 1.0 = 
 * Blastoff!
