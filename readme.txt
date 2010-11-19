@@ -1,5 +1,5 @@
 === Weather Forecast - WP Wunderground ===
-Tags: weather, weather.com, wunderground, weatherbug, forecast, widget, shortcode, Yahoo weather, Yahoo! Weather, wp-weather, wp weather, local weather, weather man, weather widget, cool weather, accuweather, get weather
+Tags: weather, weather.com, wunderground, weatherbug, forecast, widget, shortcode, Yahoo weather, Yahoo! Weather, wp-weather, wp weather, local weather, weather man, weather widget, cool weather, accuweather, get weather, wordpress weather
 Requires at least: 2.8
 Tested up to: 3.0.1
 Stable tag: trunk
@@ -10,12 +10,11 @@ Get accurate and beautiful weather forecasts powered by Wunderground.com for you
 
 == Description ==
 
-<h3>Wunderground is the best weather site.</h3>
+<h3>Wunderground is the best WordPress weather site.</h3>
 
 Wunderground.com has the most accurate and in-depth weather information. They're also not evil corporate giants, and are weather geeks, which is nice. 
 
-This plugin uses the Wunderground API to gather its accurate forcasts.
-
+This plugin uses the Wunderground API to gather its accurate forecasts.
 
 <h3>If you want a great-looking weather forecast, use this plugin.</h3>
 __This is the best-looking weather forecast plugin for WordPress.__ It looks great on many different templates out of the box, including the default WP theme, TwentyTen.
@@ -131,16 +130,18 @@ This plugin is a perfect compliment for regional websites (about a city or town)
 
 == Changelog ==
 
-= 1.0.1 =
-* Added a check for PHP5, which is required for the plugin.
+= 1.1 =
+* Added data storage - the plugin will now store forecast tables for 6 hours. This should speed up the time it takes to load the forecasts.
+* Added a check for PHP5 and `simplexml_load_file`, which are required for the plugin.
 
 = 1.0 =
 * Initial launch
 
 == Upgrade Notice ==
 
-= 1.0.1 =
-* Added a check for PHP5, which is required for the plugin. Users will no longer get `Parse error: syntax error, unexpected '{' in {your-site}/wunderground.php on line 412` error
+= 1.1 = 
+* Added data storage - the plugin will now store forecast tables for 6 hours. This should speed up the time it takes to load the forecasts.
+* Added a check for PHP5 and `simplexml_load_file`, whichare required for the plugin. Users will no longer get `Parse error: syntax error, unexpected '{' in {your-site}/wunderground.php on line 412` error
 
 = 1.0 = 
 * Blastoff!

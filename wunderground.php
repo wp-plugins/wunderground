@@ -3,7 +3,7 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.0.1
+Version: 1.1
 Author: Katz Web Services, Inc.
 Author URI: http://www.seodenver.com/
 */
@@ -24,8 +24,8 @@ class wp_wunderground {
 	
 	function wp_wunderground() {
 		
-		// array_combine() is PHP5 only
-		if(!function_exists('array_combine')) {
+		// PHP5 only
+		if(!version_compare(PHP_VERSION, '5.0.0', '>=')) {
 			add_action('admin_notices', 'wpwundergroundphp5error');
 			function wpwundergroundphp5error() {
 				$out = '<div class="error" id="messages"><p>';
@@ -33,21 +33,35 @@ class wp_wunderground {
 				$out .= '</p></div>';
 				echo $out;
 			}
-		} else {
-			add_action('admin_menu', array(&$this, 'admin'));
-		    add_filter('plugin_action_links', array(&$this, 'settings_link'), 10, 2 );
-	        add_action('admin_init', array(&$this, 'settings_init') );
-	    	$this->options = get_option('wp_wunderground', array());
-	        add_shortcode('forecast', array(&$this, 'build_forecast'));
-	        
-	        // Set each setting...
-	        foreach($this->options as $key=> $value) {
-	        	$this->{$key} = $value;
-	        }
-			
-			if(!is_admin()) {
-				add_action('wp_footer', array(&$this,'showlink'));
+			return;
+		}
+		
+		// Some hosts don't support it...
+		if(!function_exists('simplexml_load_file')) {
+			add_action('admin_notices', 'wpwundergroundsimplexmlerror');
+			function wpwundergroundsimplexmlerror() {
+				$out = '<div class="error" id="messages"><p>';
+				$out .= 'The WP Wunderground plugin requires the PHP function <code>simplexml_load_file()</code>. Your server has this disabled. Please ask your hosting company to enable <code>simplexml</code>.';
+				$out .= '</p></div>';
+				echo $out;
 			}
+			return;
+		}
+		
+		
+		add_action('admin_menu', array(&$this, 'admin'));
+	    add_filter('plugin_action_links', array(&$this, 'settings_link'), 10, 2 );
+        add_action('admin_init', array(&$this, 'settings_init') );
+    	$this->options = get_option('wp_wunderground', array());
+        add_shortcode('forecast', array(&$this, 'build_forecast'));
+        
+        // Set each setting...
+        foreach($this->options as $key=> $value) {
+        	$this->{$key} = $value;
+        }
+		
+		if(!is_admin()) {
+			add_action('wp_footer', array(&$this,'showlink'));
 		}
 	}
 	
@@ -362,15 +376,17 @@ EOD;
 	    if($measurement == 'c') { $measurement = 'celsius'; }
 	    if($measurement == 'f') { $measurement = 'fahrenheit'; }
 	    
-		if(!$xml=simplexml_load_file($this->url.$location)){
-			trigger_error('Error reading XML file',E_USER_ERROR);
-			return '<!-- WP Wunderground Error : Error reading XML file at '.$this->url.$this->location.' -->'.$content;
-		} else if(!empty($xml->simpleforecast->forecastday)) {		
-
-			# $this->r($xml->simpleforecast); // For debug...
-				
-		 	$i = 0;
-		 	
+	    $table = get_transient('wunderground_table_'.sanitize_title($location));
+	    
+	    if(!$table) {
+			if(!$xml=simplexml_load_file($this->url.$location)){
+				trigger_error('Error reading XML file',E_USER_ERROR);
+				return '<!-- WP Wunderground Error : Error reading XML file at '.$this->url.$this->location.' -->'.$content;
+			} elseif(empty($xml->simpleforecast->forecastday)) {
+				return '<!-- WP Wunderground Error : Weather feed was empty from '.$this->url.$this->location.' -->'.$content;
+			}
+					
+		 	$tablehead = $tablebody = ''; $i = 0;
 			foreach($xml->simpleforecast->forecastday as $day) {
 				# $this->r($day); // For debug...
 				if($i < $numdays) {
@@ -409,10 +425,10 @@ EOD;
 						</tr>
 					</tbody>
 				</table>';
-			return apply_filters('wp_wunderground_forecast', $table);
-		} else {
-			return '<!-- WP Wunderground Error : Weather feed was empty from '.$this->url.$this->location.' -->'.$content;
+			set_transient('wunderground_table_'.sanitize_title($location), $table, 60*60*6);
 		}
+		
+		return apply_filters('wp_wunderground_forecast', $table);
 	}
 	
 	function format_date($date, $todaylabel = false, $datelabel = false) {
