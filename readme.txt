@@ -123,7 +123,9 @@ add_filter('wp_wunderground_forecast', 'replace_weather');
 Nope, no account needed.
 
 = This plugin slows down my site. =
-It is recommended to use a caching plugin (such as WP Super Cache) with this plugin; that way the forecast isn't re-loaded every page load.
+Version 1.1 of the plugin added forecast caching, so the forecast is only re-loaded every 6 hours.
+
+For previous versions, it is recommended to use a caching plugin (such as WP Super Cache) with this plugin; that way the forecast isn't re-loaded every page load.
 
 = Why would I want this plugin? =
 This plugin is a perfect compliment for regional websites (about a city or town), personal websites where you want to share what the weather is like where you're blogging from, travel sites (show the weather at each stop!), <a href="http://www.denversnowremovalservice.com">snow removal</a> websites, yard services websites, and more.
