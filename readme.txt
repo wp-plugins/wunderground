@@ -1,7 +1,7 @@
 === Weather Forecast - WP Wunderground ===
 Tags: weather, weather.com, wunderground, weatherbug, forecast, widget, shortcode, Yahoo weather, Yahoo! Weather, wp-weather, wp weather, local weather, weather man, weather widget, cool weather, accuweather, get weather, wordpress weather
 Requires at least: 2.8
-Tested up to: 3.0.1
+Tested up to: 3.0.2
 Stable tag: trunk
 Contributors: katzwebdesign
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=WP%20Wunderground%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
@@ -87,6 +87,23 @@ If you're a maniac for shortcodes, and you want all control all the time, this i
 
 If you want to use your own icons, you would add a filter to the bottom of your theme's <code>functions.php</code> file:
 
+<h3>Version 1.2+</h3>
+<pre>
+add_filter('wp_wunderground_forecast_icon', 'use_custom_wunderground_icons');
+
+function use_custom_wunderground_icons($content=null) { 
+	
+	$myIconFolder = 'http://www.example.com/images/';
+	
+	$myFileType = '.gif';
+	
+	$content = preg_replace('/http\:\/\/icons\-ecast\.wxug\.com\/i\/c\/[a-z]\/(.*?)\.gif/ism', $myIconFolder.'$1'.$myFileType, $content);
+	
+	return $content;
+}
+</pre>
+
+<h3>Version 1.1</h3>
 <pre>
 add_filter('wp_wunderground_forecast', 'use_custom_wunderground_icons');
 
@@ -132,6 +149,21 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 
 == Changelog ==
 
+= 1.2 =
+* Improved data storage, fixing issues users were having with Celsius / Fahrenheit settings and setting the number of columns in a table
+* A new `cache` option has been added to the shortcode. Add `cache=0` or `cache=` to the shortcode to disable storing forecasts. <strong>Not recommended;</strong> will dramatically slow down site.	
+	* If you want to refresh the results, you can add `?cache=false` to your URL and the forecast will be updated.
+* Added "width" option to shortcode to define table width. `100%` is the default. Use `width=0` or `width=` to disable hard-coding width in table.
+* Changed the default high/low setting to add the degree symbol.
+* Removed code whitespace when storing table for added speed
+* Added CSS classes to forecast columns based on weather conditions. This will allow you to make "Partly Cloudy" columns gray, "Sunny" blue, etc.
+* Added three new filters:
+	* `wp_wunderground_forecast_cache` - How long results are cached for. Default: 6 hours.
+	* `wp_wunderground_forecast_icon`
+	* `wp_wunderground_forecast_conditions`
+	* `wp_wunderground_forecast_temp`
+* Rounded column width to two digits. Instead of `16.66666667%`, it's now `16.67%`
+
 = 1.1 =
 * Added data storage - the plugin will now store forecast tables for 6 hours. This should speed up the time it takes to load the forecasts.
 * Added a check for PHP5 and `simplexml_load_file`, which are required for the plugin.
@@ -140,6 +172,10 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.2 =
+* Improved data storage, fixing issues users were having with Celsius / Fahrenheit settings and setting the number of columns in a table
+* Many other updates & improvements - cheek the changelog.
 
 = 1.1 = 
 * Added data storage - the plugin will now store forecast tables for 6 hours. This should speed up the time it takes to load the forecasts.

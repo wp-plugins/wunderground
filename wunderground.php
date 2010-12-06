@@ -3,7 +3,7 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.1
+Version: 1.2
 Author: Katz Web Services, Inc.
 Author URI: http://www.seodenver.com/
 */
@@ -15,12 +15,14 @@ class wp_wunderground {
 	var $measurement = 'fahrenheit';
 	var $type = 'table';
 	var $align = 'center';
-	var $highlow = '%%high%%/%%low%%';
+	var $highlow = '%%high%%&deg;/%%low%%&deg;';
 	var $caption = 'Weather for Beverly Hills';
 	var $numdays = 6;
 	var $datelabel = '%%weekday%%';
 	var $todaylabel = 'Today';
 	var $showlink = 'yes';
+	var $cache = true;
+	var $width = '100%';
 	
 	function wp_wunderground() {
 		
@@ -154,6 +156,14 @@ class wp_wunderground {
                                 'label' => __('Icon Set', 'wp_wunderground'),
                                 'desc' => 'How do you want your weather icons to look?',
                         		'content' => $this->buildIconSet()
+                        );
+                        
+                        $checked = (empty($this->showlink) || $this->showlink == 'yes') ? ' checked="checked"' : '';
+                        $rows[] = array(
+                                'id' => 'wp_wunderground_cache',
+                                'label' => __('Use Cache', 'wp_wunderground'),
+                                'desc' => 'Cache the results to prevent fetching the forecast on each page load. <strong>Highly encouraged.</strong>',
+                                'content' => "<p><label for='wp_wunderground_cache'><input type='hidden' name='wp_wunderground[cache]' value='no' /><input type='checkbox' name='wp_wunderground[cache]' value='yes' id='wp_wunderground_cache' $checked /> Cache forecast results</label></p>"
                         );
                         
                         $checked = (empty($this->showlink) || $this->showlink == 'yes') ? ' checked="checked"' : '';
@@ -302,7 +312,7 @@ class wp_wunderground {
 	
 	<p>If you're a maniac for shortcodes, and you want all control all the time, this is a good way to use it.</p>
 	
-	<p><code>[forecast location="Tokyo, Japan" caption="Weather for Tokyo" measurement='F' todaylabel="Today" datelabel="date('m/d/Y')" highlow='%%high%%&deg;/%%low%%&deg;' numdays="3" iconset="Cartoon" class="css_table_class"]</code></p>
+	<p><code>[forecast location="Tokyo, Japan" caption="Weather for Tokyo" measurement='F' todaylabel="Today" datelabel="date('m/d/Y')" highlow='%%high%%&deg;/%%low%%&deg;' numdays="3" iconset="Cartoon" class="css_table_class" cache="true" width="100%"]</code></p>
 	
 	<p><strong>The shortcode supports the following settings:</strong></p>
 	<ul>
@@ -314,7 +324,8 @@ class wp_wunderground {
 		</li><li><code>highlow='%%high%%&deg;/%%low%%&deg;'</code> - Format how the highs & low temps display ("85&deg;/35&deg;" in this example)
 		</li><li><code>numdays=3</code> - Change the number of days displayed in the forecast. Up to 6 day forecast.
 		</li><li><code>iconset="Cartoon"</code> - Choose your iconset from one of 10 great options
-		</li><li><code>class="css_table_class"</code> - Change the CSS class of the generated forecast table
+		</li><li><code>cache="true"</code> - Whether to cache forecast results. Use <code>0</code> to disable (not recommended).
+		</li><li><code>width="100%"</code> - Change the width of the forecast table
 	</ul>
 	
 EOD;
@@ -357,8 +368,20 @@ EOD;
 		if($kill) { die(); }
 	}
 	
+	function true_false($value) {
+		$value = trim($value);
+		if(
+			empty($value) ||
+			$value === '' ||
+			$value == 'false' ||
+			$value == 'no' ||
+			$value == 'off'
+		) { return false; }
+		return true;
+	}
+	
 	function build_forecast($atts, $content=null) {
-		extract( shortcode_atts( array(
+		$settings = shortcode_atts( array(
 	      'location'	=>	$this->location,
 	      'measurement' => 	$this->measurement,
 	      'highlow' 	=> 	$this->highlow,
@@ -368,27 +391,47 @@ EOD;
 	      'caption'		=>	$this->caption,
 	      'datelabel'	=>	$this->datelabel,
 	      'todaylabel'	=>	$this->todaylabel,
-	      'class'		=>	'wp_wunderground'
-	      ), $atts ) );
+	      'class'		=>	'wp_wunderground',
+	      'cache'		=>	$this->cache,
+	      'width'		=>	$this->width,
+	      'table'		=>	false,
+	      'type'		=>	'table'
+	      ), $atts );
+		extract( $settings );
+	    
+	    // Set custom hard-coded width. Added in 1.2
+	    if($this->true_false($width)) { $width = ' width="'.$width.'"';}
+	    
+	    // Added in 1.2
+	    $cache = $this->true_false($cache);
 	    
 	    // They're hard to spell and long, man!
 	    $measurement = strtolower($measurement);
 	    if($measurement == 'c') { $measurement = 'celsius'; }
 	    if($measurement == 'f') { $measurement = 'fahrenheit'; }
 	    
-	    $table = get_transient('wunderground_table_'.sanitize_title($location));
-	    
-	    if(!$table) {
+	    if($cache) {
+	    	// Shorten the settings into an encrypted 40-byte string so that
+		    // it's never longer than the 64-byte database column
+		    foreach($settings as $k => $v) { $settings[$k] = esc_attr($v); }
+		    $transient_title = implode('_', $settings);
+			$transient_title = 'wund_'.sha1($transient_title);
+		 	
+		 	// See if it exists already.
+		 	$table = get_transient($transient_title);
+		}
+		
+	    if(!$table || !$cache || isset($_REQUEST['cache'])) {
 			if(!$xml=simplexml_load_file($this->url.$location)){
 				trigger_error('Error reading XML file',E_USER_ERROR);
 				return '<!-- WP Wunderground Error : Error reading XML file at '.$this->url.$this->location.' -->'.$content;
 			} elseif(empty($xml->simpleforecast->forecastday)) {
 				return '<!-- WP Wunderground Error : Weather feed was empty from '.$this->url.$this->location.' -->'.$content;
 			}
-					
-		 	$tablehead = $tablebody = ''; $i = 0;
+			
+			$tablehead = $tablebody = ''; $i = 0;
 			foreach($xml->simpleforecast->forecastday as $day) {
-				# $this->r($day); // For debug...
+				#$this->r($day); // For debug...
 				if($i < $numdays) {
 					$day = simpleXMLToArray($day);
 					extract($day);
@@ -398,24 +441,24 @@ EOD;
 					$high = $high[$measurement];
 					$low = $low[$measurement];
 					$icon = '<img src="'.$icon_url.'"'.$icon_size.' alt="It is forcast to be '.$conditions.' at '.$date['pretty'].'" style="display:block;" />';
-					$width = 100/$this->numdays;
+					$colwidth = round(100/$numdays, 2);
 					
 					$temp = str_replace('%%high%%', $high, $highlow);
 					$temp = str_replace('%%low%%', $low, $temp);				
 					$label = $this->format_date($date, $todaylabel, $datelabel);
 					
-					$tablehead .= "\n\t\t\t\t\t\t\t".'<th scope="col" width="'.$width.'%" align="'.$align.'">'.$label.'</th>';
+					$tablehead .= "\n\t\t\t\t\t\t\t".'<th scope="col" width="'.$colwidth.'%" align="'.$align.'">'.$label.'</th>';
 					
 					$tablebody .=
-					"\n\t\t\t\t\t\t\t".'<td align="'.$align.'">'.$icon.'<div class="wp_wund_conditions">'.$conditions.'</div>'.$temp.'</td>';
+					"\n\t\t\t\t\t\t\t".'<td align="'.$align.'" class="'.esc_attr($class).'_'.sanitize_title($conditions).'">'.apply_filters('wp_wunderground_forecast_icon',$icon).'<div class="wp_wund_conditions">'.apply_filters('wp_wunderground_forecast_conditions',$conditions).'</div>'.apply_filters('wp_wunderground_forecast_temp',$temp).'</td>';
 				}
 				$i++;
 			}
-			if(!empty($caption)) { 
+			if($this->true_false($caption)) {
 				$caption = "\n\t\t\t\t\t<caption>{$caption}</caption>";
 			}
 			$table = '
-				<table cellpadding="0" cellspacing="0" border="0" width="100%" class="'.esc_attr($class).'">'.$caption.'
+				<table cellpadding="0" cellspacing="0" border="0"'.$width.' class="'.esc_attr($class).'">'.$caption.'
 					<thead>
 						<tr>'.$tablehead.'
 						</tr>
@@ -425,7 +468,8 @@ EOD;
 						</tr>
 					</tbody>
 				</table>';
-			set_transient('wunderground_table_'.sanitize_title($location), $table, 60*60*6);
+			$table = preg_replace('/\s+/ism', ' ', $table);
+			set_transient($transient_title, $table, apply_filters('wp_wunderground_forecast_cache', 60*60*6));
 		}
 		
 		return apply_filters('wp_wunderground_forecast', $table);
