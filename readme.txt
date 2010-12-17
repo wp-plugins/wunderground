@@ -149,6 +149,9 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 
 == Changelog ==
 
+= 1.2.1 =
+* Fixed issue with "Give thanks" link
+
 = 1.2 =
 * Improved data storage, fixing issues users were having with Celsius / Fahrenheit settings and setting the number of columns in a table
 * A new `cache` option has been added to the shortcode. Add `cache=0` or `cache=` to the shortcode to disable storing forecasts. <strong>Not recommended;</strong> will dramatically slow down site.	
@@ -172,6 +175,9 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+* Fixed issue with "Give thanks" link
 
 = 1.2 =
 * Improved data storage, fixing issues users were having with Celsius / Fahrenheit settings and setting the number of columns in a table

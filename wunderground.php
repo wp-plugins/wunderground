@@ -3,7 +3,7 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.2
+Version: 1.2.1
 Author: Katz Web Services, Inc.
 Author URI: http://www.seodenver.com/
 */
@@ -20,7 +20,7 @@ class wp_wunderground {
 	var $numdays = 6;
 	var $datelabel = '%%weekday%%';
 	var $todaylabel = 'Today';
-	var $showlink = 'yes';
+	var $showlink = '';
 	var $cache = true;
 	var $width = '100%';
 	
