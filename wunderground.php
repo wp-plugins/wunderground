@@ -3,7 +3,7 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.2.1
+Version: 1.2.2
 Author: Katz Web Services, Inc.
 Author URI: http://www.seodenver.com/
 */
@@ -39,11 +39,11 @@ class wp_wunderground {
 		}
 		
 		// Some hosts don't support it...
-		if(!function_exists('simplexml_load_file')) {
+		if(!function_exists('simplexml_load_string')) {
 			add_action('admin_notices', 'wpwundergroundsimplexmlerror');
 			function wpwundergroundsimplexmlerror() {
 				$out = '<div class="error" id="messages"><p>';
-				$out .= 'The WP Wunderground plugin requires the PHP function <code>simplexml_load_file()</code>. Your server has this disabled. Please ask your hosting company to enable <code>simplexml</code>.';
+				$out .= 'The WP Wunderground plugin requires the PHP function <code>simplexml_load_string()</code>. Your server has this disabled. Please ask your hosting company to enable <code>simplexml_load_string</code>.';
 				$out .= '</p></div>';
 				echo $out;
 			}
@@ -422,7 +422,8 @@ EOD;
 		}
 		
 	    if(!$table || !$cache || isset($_REQUEST['cache'])) {
-			if(!$xml=simplexml_load_file($this->url.$location)){
+			$xmlStr = @wp_remote_fopen(trim($this->url.urlencode($location)));
+			if(is_wp_error($xmlStr) || !$xml=simplexml_load_string($xmlStr)){
 				trigger_error('Error reading XML file',E_USER_ERROR);
 				return '<!-- WP Wunderground Error : Error reading XML file at '.$this->url.$this->location.' -->'.$content;
 			} elseif(empty($xml->simpleforecast->forecastday)) {
