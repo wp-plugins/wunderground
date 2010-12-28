@@ -1,7 +1,7 @@
 === Weather Forecast - WP Wunderground ===
 Tags: weather, weather.com, wunderground, weatherbug, forecast, widget, shortcode, Yahoo weather, Yahoo! Weather, wp-weather, wp weather, local weather, weather man, weather widget, cool weather, accuweather, get weather, wordpress weather
 Requires at least: 2.8
-Tested up to: 3.0.2
+Tested up to: 3.0.3
 Stable tag: trunk
 Contributors: katzwebdesign
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=WP%20Wunderground%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
@@ -149,6 +149,10 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixed bug where Degree Measurement select drop-down would not show saved state as Celsius, even though it was working properly. (thanks <a href="http://www.OwlConcept.com">Robson</a>)
+* Added proper HTML escaping for High/Low formatting and temperature output
+
 = 1.2.2 =
 * Added GoDaddy compatibility by switching from `simplexml_load_file` to `wp_remote_fopen` and `simplexml_load_string` (<a href="http://wordpress.org/support/topic/490946">thanks, rjune</a>)
 
@@ -178,6 +182,13 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.2.3 =
+* Fixed bug where Degree Measurement select drop-down would not show saved state as Celsius, even though it was working properly. (thanks <a href="http://www.OwlConcept.com" rel="nofollow">Robson</a>)
+* Added proper HTML escaping for High/Low formatting and temperature output
+
+= 1.2.2 =
+* Added GoDaddy compatibility by switching from `simplexml_load_file` to `wp_remote_fopen` and `simplexml_load_string` (<a href="http://wordpress.org/support/topic/490946">thanks, rjune</a>)
 
 = 1.2.1 =
 * Fixed issue with "Give thanks" link

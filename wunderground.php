@@ -3,7 +3,7 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.2.2
+Version: 1.2.3
 Author: Katz Web Services, Inc.
 Author URI: http://www.seodenver.com/
 */
@@ -105,7 +105,7 @@ class wp_wunderground {
                        	$rows[] = array(
                                 'id' => 'wp_wunderground_location',
                                 'label' => __('Location', 'wp_wunderground'),
-                                'content' => "<input type='text' name='wp_wunderground[location]' id='wp_wunderground_location' value='".esc_attr($this->location)."' size='40' style='width:95%!important;' /><br /><small>The location can be entered as: ZIP code (US or Canadian); city state; city, state; city; state; country; airport code (3-letter or 4-letter); lat, long.</small>",
+                                'content' => "<input type='text' name='wp_wunderground[location]' id='wp_wunderground_location' value='".esc_attr__($this->location)."' size='40' style='width:95%!important;' /><br /><small>The location can be entered as: ZIP code (US or Canadian); city state; city, state; city; state; country; airport code (3-letter or 4-letter); lat, long.</small>",
                                 'desc' => 'The location for the forcast.'
                             );
                         $rows[] = array(
@@ -125,21 +125,21 @@ class wp_wunderground {
                         $rows[] = array(
                                 'id' => 'wp_wunderground_caption',
                                 'label' => __('Forecast Caption', 'wp_wunderground'),
-                                'content' => "<input type='text' name='wp_wunderground[caption]' id='wp_wunderground_caption' value='".esc_attr($this->caption)."' size='40' style='width:95%!important;' />",
+                                'content' => "<input type='text' name='wp_wunderground[caption]' id='wp_wunderground_caption' value='".esc_attr__($this->caption)."' size='40' style='width:95%!important;' />",
                                 'desc' => 'This will display above the forecast. Think of it like a forecast title.'
                             );
                             
                         $rows[] = array(
                                 'id' => 'wp_wunderground_datelabel',
                                 'label' => __('"All Dates" Label', 'wp_wunderground'),
-                                'content' => "<input type='text' name='wp_wunderground[datelabel]' id='wp_wunderground_datelabel' value='".esc_attr($this->datelabel)."' size='40' style='width:95%!important;' />",
+                                'content' => "<input type='text' name='wp_wunderground[datelabel]' id='wp_wunderground_datelabel' value='".esc_attr__($this->datelabel)."' size='40' style='width:95%!important;' />",
                                 'desc' => 'How all dates appear by default. See instructions in the "Date Formatting" section of the box on the right &rarr;'
                             );
                             
                         $rows[] = array(
                                 'id' => 'wp_wunderground_todaylabel',
                                 'label' => __('"Today\'s Date" Label', 'wp_wunderground'),
-                                'content' => "<input type='text' name='wp_wunderground[todaylabel]' id='wp_wunderground_todaylabel' value='".esc_attr($this->todaylabel)."' size='40' style='width:95%!important;' />",
+                                'content' => "<input type='text' name='wp_wunderground[todaylabel]' id='wp_wunderground_todaylabel' value='".esc_attr__($this->todaylabel)."' size='40' style='width:95%!important;' />",
                                 'desc' => 'How today\'s date appears (overrides All Dates format). See instructions in the "Date Formatting" section of the box on the right &rarr;'
                         );
                         
@@ -147,7 +147,7 @@ class wp_wunderground {
                                 'id' => 'wp_wunderground_highlow',
                                 'label' => __('"High/Low" Formatting', 'wp_wunderground'),
                                 'desc' => 'See instructions in the "Highs &amp; Lows Formatting" section of the box on the right &rarr;',
-                                'content' => "<input type='text' name='wp_wunderground[highlow]' id='wp_wunderground_highlow' value='".esc_attr($this->highlow)."' size='40' style='width:95%!important;' />"
+                                'content' => "<input type='text' name='wp_wunderground[highlow]' id='wp_wunderground_highlow' value='".htmlspecialchars($this->highlow)."' size='40' style='width:95%!important;' />"
                         );
                         
                         
@@ -242,7 +242,7 @@ class wp_wunderground {
     	$c = ' selected="selected"';
     	$output = '<select id="wp_wunderground_measurement" name="wp_wunderground[measurement]">';
 		$output .= '	<option value="fahrenheit"'; if($this->measurement == 'fahrenheit') { $output .= $c; } $output .= '>U.S. (&deg;F)</option>';
-		$output .= '	<option value="celsius"'; if($this->measurement == 'celcius') { $output .= $c; } $output .= '>Metric (&deg;C)</option>';
+		$output .= '	<option value="celsius"'; if($this->measurement == 'celsius') { $output .= $c; } $output .= '>Metric (&deg;C)</option>';
 		$output .= '</select>';
 		$output .= '<label for="wp_wunderground_measurement" style="padding-left:10px;">Fahrenheit or Celsius:</label>';
 		return $output;
@@ -413,7 +413,7 @@ EOD;
 	    if($cache) {
 	    	// Shorten the settings into an encrypted 40-byte string so that
 		    // it's never longer than the 64-byte database column
-		    foreach($settings as $k => $v) { $settings[$k] = esc_attr($v); }
+		    foreach($settings as $k => $v) { $settings[$k] = esc_attr__($v); }
 		    $transient_title = implode('_', $settings);
 			$transient_title = 'wund_'.sha1($transient_title);
 		 	
@@ -446,12 +446,14 @@ EOD;
 					
 					$temp = str_replace('%%high%%', $high, $highlow);
 					$temp = str_replace('%%low%%', $low, $temp);				
+					$temp = htmlspecialchars_decode($temp);
+					
 					$label = $this->format_date($date, $todaylabel, $datelabel);
 					
 					$tablehead .= "\n\t\t\t\t\t\t\t".'<th scope="col" width="'.$colwidth.'%" align="'.$align.'">'.$label.'</th>';
 					
 					$tablebody .=
-					"\n\t\t\t\t\t\t\t".'<td align="'.$align.'" class="'.esc_attr($class).'_'.sanitize_title($conditions).'">'.apply_filters('wp_wunderground_forecast_icon',$icon).'<div class="wp_wund_conditions">'.apply_filters('wp_wunderground_forecast_conditions',$conditions).'</div>'.apply_filters('wp_wunderground_forecast_temp',$temp).'</td>';
+					"\n\t\t\t\t\t\t\t".'<td align="'.$align.'" class="'.esc_attr__($class).'_'.sanitize_title($conditions).'">'.apply_filters('wp_wunderground_forecast_icon',$icon).'<div class="wp_wund_conditions">'.apply_filters('wp_wunderground_forecast_conditions',$conditions).'</div>'.apply_filters('wp_wunderground_forecast_temp',$temp).'</td>';
 				}
 				$i++;
 			}
@@ -459,7 +461,7 @@ EOD;
 				$caption = "\n\t\t\t\t\t<caption>{$caption}</caption>";
 			}
 			$table = '
-				<table cellpadding="0" cellspacing="0" border="0"'.$width.' class="'.esc_attr($class).'">'.$caption.'
+				<table cellpadding="0" cellspacing="0" border="0"'.$width.' class="'.esc_attr__($class).'">'.$caption.'
 					<thead>
 						<tr>'.$tablehead.'
 						</tr>
