@@ -10,6 +10,8 @@ Get accurate and beautiful weather forecasts powered by Wunderground.com for you
 
 == Description ==
 
+<blockquote><p>[WP Wunderground] is by far, the best weather plugin i've ever seen on a CMS before. Not even Joomla has something so powerful, good looking and yet easy to implement.<br /><cite>Robson</cite></p></blockquote>
+
 <h3>Wunderground is the best WordPress weather site.</h3>
 
 Wunderground.com has the most accurate and in-depth weather information. They're also not evil corporate giants, and are weather geeks, which is nice. 
