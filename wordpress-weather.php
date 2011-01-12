@@ -1,28 +1,70 @@
 <?php
 /*
-Plugin Name: Wordpress Weather
+Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 0.2
+Version: 2.0
 Author: 
 Author URI:
 */
 require_once("wpw-weatherdata.inc");
 define('WPW_CACHETIME', 5);
+add_action('wp_head', 'wp_forecast_css');
 
+
+/**
+ * \class wordpressWeather
+ * \brief Wordpress plugin to display the weather
+ *
+ * This class extends the normal Wordpress Widget class into a weather widget.
+ *   It can also be called using the shortcode [forecast], Here is the current
+ *   list of supported parameters: source, location, measurement, caption,
+ *   numdays, linkdays, datelabel, todaylabel, cache, class, highlow, iconset.
+ */
 class wordpressWeather extends WP_Widget {
-	function wordpressWeather() {
-		parent::WP_Widget(false, $name = 'GcalSidebar');
-		add_shortcode('wordpress-weather', array(&$this, 'shortcode'));
+	function __construct() {
+		parent::WP_Widget(false, $name = 'WP_Widget');
+		add_shortcode('forecast', array(&$this, 'shortcode'));
+		//add_action('wp_head', array(&$this, 'css'));
+	}
+
+	function do_css($wpw_obj) {
+/**
+ * \todo CSS should be moved into a plugin configuration option with %% codes to replace certain items.
+ */
+		$widthp = floor((100 - ($wpw_obj->getDays() * 2)) / $wpw_obj->getDays());
+		list($width, $height) = getimagesize($wpw_obj->getIconPath() . "/clear.png"); 
+		return "
+.wpw-horitz {
+	display:inline-block;
+	vertical-align:top;
+	align:center;
+	margin: 0 1%;
+	min-width: " . $width . "px;
+	/*width: " . $widthp . "%;*/
+}
+
+.wpw-vert {
+	display:block;
+}
+	";
+	}
+
+	function css($wpw_obj) {
+		$output  = "<style type='text/css'>";
+		$output .= $this->do_css($wpw_obj);
+		$output .= "</style>";
+		return $output;
 	}
 
 	function shortcode($atts) {
 		$settings = shortcode_atts( array(
 		            'source'      =>  "base"
 		          , 'location'    =>  "46534"
-		          , 'displaytemp' =>  "fahrenheit"
+		          , 'measurement' =>  "F"
 		          , 'caption'     =>  "Knox, Indiana"
 		          , 'numdays'     =>  5
+		          , 'linkdays'    =>  "true"
 		          , 'datelabel'   =>  "%%weekday%%"
 		          , 'todaylabel'  =>  "Today"
 		          , 'cache'       =>  false
@@ -52,16 +94,28 @@ class wordpressWeather extends WP_Widget {
 				break;
 		}
 		$wpw_obj->setLocation(esc_html($settings['location']));
-		switch(strtolower($settings['displaytemp'])) {
-			case "celsius":
+		switch(strtolower($settings['measurement'])) {
+			case "c":
 				$wpw_obj->setTScale($GLOBALS['TSCALE']->CELSIUS);
+				$wpw_obj->setMScale($GLOBALS['MSCALE']->METRIC);
 				break;
 			default:
 				$wpw_obj->setTScale($GLOBALS['TSCALE']->FAHRENHEIT);
+				$wpw_obj->setMScale($GLOBALS['MSCALE']->ENGLISH);
 				break;
 		}
 		$wpw_obj->setCaption(esc_html($settings['caption']));
 		$wpw_obj->setDays(absint($settings['numdays']));
+		switch(strtolower($settings['linkdays'])) {
+			case "false":
+			case "off":
+				$wpw_obj->setDaysLink(false);
+				break;
+			default:
+				$wpw_obj->setDaysLink(true);
+				break;
+		}
+		$wpw_obj->setClass(absint($settings['class']));
 		switch(strtolower($settings['cache'])) {
 			case "true":
 			case "on":
@@ -80,7 +134,9 @@ class wordpressWeather extends WP_Widget {
 		}
 
 		$wpw_obj->getFeed();
-		return $wpw_obj->displayFeed();
+		$output = $this->css($wpw_obj);
+		$output .= $wpw_obj->displayFeed();
+		return $output;
 	}
 }
 

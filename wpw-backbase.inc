@@ -82,6 +82,7 @@ class wpw_backBase {
 	protected $highlow     = '';
 	protected $caption     = '';
 	protected $numdays     = '';
+	protected $dayslink     = '';
 	protected $datelabel   = '';
 	protected $todaylabel  = '';
 	protected $showlink    = '';
@@ -108,13 +109,16 @@ class wpw_backBase {
 		$this->displayAlign  = $GLOBALS['ALIGN']->CENTER;
 		$this->highlow = '%%high%%&deg;/%%low%%&deg;';
 		$this->caption = 'Knox, Indiana';
-		$this->numdays = 5;
+		$this->setDays(5);
+		$this->setDaysLink(true);
 		$this->setDateLabel('%%weekday%%');
 		$this->setTodayLabel('Today');
+		$this->setClass('wordpress_weather');
 		$this->showlink = '';
 		$this->cache = true;
 		$this->width = '100%';
-		$this->icon_url = sprintf("%s/plugins/%sicons" , WP_CONTENT_URL , str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
+		$this->icon_url  = sprintf("%s/plugins/%sicons" , WP_CONTENT_URL , str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
+		$this->icon_path = sprintf("%s/plugins/%sicons" , WP_CONTENT_DIR , str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
 		$this->weather = Array();
 		
 		// PHP5 only
@@ -160,6 +164,12 @@ class wpw_backBase {
 			$this->icons = $icons;
 		return $this->icons;
 	}
+	function getIconPath() {
+		if(in_array($this->icons, $this->icon_sets))
+			return $this->icon_path . "/" . $this->icons;
+		else
+			return $this->icon_path . "/Humanity";
+	}
 	function getIconUrl() {
 		if(in_array($this->icons, $this->icon_sets))
 			return $this->icon_url . "/" . $this->icons;
@@ -194,8 +204,9 @@ class wpw_backBase {
 
 		$this->weather = Array();
 		foreach($cacheData->data as $data) {
-
-			$this->weather[] = new wpw_weatherData($data->high, $data->condition, $data->date, $data->low, $data->windspeed);
+			$newData = new wpw_weatherData($data->high, $data->condition, $data->date, $data->low, $data->windspeed);
+			$newData->setPrecip($data->precip);
+			$this->weather[] = $newData;
 		}
 		return false;
 		
@@ -208,19 +219,25 @@ class wpw_backBase {
 		$fname = $dir . "/" . $this->getLocation() . ".json";
 		$fp = fopen($fname, 'w');
 		$cacheData = Array('serial' => time(), 'data' => $this->weather);
-print_r($cacheData);
 		fwrite($fp, json_encode($cacheData));
 		fclose($fp);
 	}
 	function displayFeed() {
 		if($this->displayDir == $GLOBALS['ORIENT']->VERT) {
 			$css="display:block;";
+			$class = "wpw-vert";
 		}
 		else {
 			$css="display:inline-block;";
+			$class = "wpw-horitz";
 		}
-		$output = "<div class='wordpress_weather'><h2>" . $this->getCaption() . "</h2><ul class='forecast'>";
+		$output = "<div class='" . $this->getClass() . "'><h2>" . $this->getCaption() . "</h2><ul class='forecast'>";
+		$dayCount = 1;
 		foreach($this->weather as $data) {
+			if($this->getDaysLink()) {
+				$linkStart = "<a target='_blank' href='" . $this->getForecastLink($dayCount) . "'>";
+				$linkEnd = "</a>";
+			}
 			if(date('Ymd') == date('Ymd', $data->getDate())) {
 				$label = $this->getTodayLabel();
 			}
@@ -230,15 +247,21 @@ print_r($cacheData);
 			$temp = str_replace('%%high%%', $data->getHigh($this->getTScale()), $this->highlow);
 			$temp = str_replace('%%low%%', $data->getLow($this->getTScale()), $temp);				
 
-			$output .= "<li style='" . $css . "'>"
-			        .  "<h3>" .  $label ."</h3>"
-			        .  "<div class='img'><img src='" . $this->getIconUrl() . '/' . $data->getConditionSlug() . ".png'></div>"
-			        .  "<div class='text'>" . $data->getConditionText() . "</div>"
+			$output .= "<li class='" . $class . "'>"
+			        .  $linkStart
+			        .  "<h4>" .  $label ."</h4>"
+			        .  "<div class='img'>" . "<img src='" . $this->getIconUrl() . '/' . $data->getConditionSlug() . ".png'></div>"
+			        .  "<div class='text'>" . $data->getPrecip($this->getMScale()) . " " . $data->getConditionText() . "</div>"
 			        .  "<div class='temp'>" . $temp . "</div>"
+			        .  $linkEnd
 			        .  "</li>";
+			$dayCount++;
 		}
 		$output .= "</div>";
 		return $output;
+	}
+	function getForecastLink($day) {
+		return("");
 	}
 	function getTodayLabel() {
 		return $this->todaylabel;
@@ -268,6 +291,13 @@ print_r($cacheData);
 		$this->displayTemp = $tscale;
 		return $this->displayTemp;
 	}
+	function getMScale() {
+		return $this->displayMeas;
+	}
+	function setMScale($mscale) {
+		$this->displayMeas = $mscale;
+		return $this->displayMeas;
+	}
 	function getTimezone() {
 		return($this->timezone);
 	}
@@ -289,6 +319,13 @@ print_r($cacheData);
 		$this->numdays = $days;
 		return($this->numdays);
 	}
+	function getDaysLink() {
+		return($this->dayslink);
+	}
+	function setDaysLink($dayslink) {
+		$this->dayslink = $dayslink;
+		return($this->dayslink);
+	}
 	function getCache() {
 		return($this->cache);
 	}
@@ -302,5 +339,12 @@ print_r($cacheData);
 	function setCaption($caption) {
 		$this->caption = $caption;
 		return($this->caption);
+	}
+	function getClass() {
+		return($this->class);
+	}
+	function setClass($class) {
+		$this->class = $class;
+		return($this->class);
 	}
 }
