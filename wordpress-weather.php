@@ -23,7 +23,7 @@ add_action('wp_head', 'wp_forecast_css');
  */
 class wordpressWeather extends WP_Widget {
 	function __construct() {
-		parent::WP_Widget(false, $name = 'WP_Widget');
+		parent::__construct(false, $name = 'WP_Widget');
 		add_shortcode('forecast', array(&$this, 'shortcode'));
 		//add_action('wp_head', array(&$this, 'css'));
 	}
