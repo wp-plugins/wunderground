@@ -94,13 +94,13 @@ class wpw_backBase {
 
 	function __construct() {
 		global $TSCALE,$MSCALE,$ORIENT,$ALIGN,$STATES;
-		$this->icon_sets    = Array('Humanity'); // Any US Zip Code
+		$this->icon_sets    = Array('humanity'); // Any US Zip Code
 		$this->furl         = '';           // URL to pull the feed
 		$this->iurl         = '';           // URL where the icons are
 
 		// Frontend variables and defaults
 		$this->location      = '46534';      // Any US Zip Code
-		$this->icons         = 'Humanity';   // Icon set named by icon_sets
+		$this->icons         = 'humanity';   // Icon set named by icon_sets
 		$this->setTimezone("America/Chicago");
 		date_default_timezone_set($this->getTimezone());
 		$this->setTScale($GLOBALS['TSCALE']->FAHRENHEIT); 
@@ -168,13 +168,13 @@ class wpw_backBase {
 		if(in_array($this->icons, $this->icon_sets))
 			return $this->icon_path . "/" . $this->icons;
 		else
-			return $this->icon_path . "/Humanity";
+			return $this->icon_path . "/humanity";
 	}
 	function getIconUrl() {
 		if(in_array($this->icons, $this->icon_sets))
 			return $this->icon_url . "/" . $this->icons;
 		else
-			return $this->icon_url . "/Humanity";
+			return $this->icon_url . "/humanity";
 	}
 	function doGetFeed() {
 		for($iter = 0 ; $iter < $this->numdays ; $iter++) {
