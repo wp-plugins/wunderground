@@ -3,10 +3,10 @@ Tags: weather, weather.com, wunderground, weatherbug, forecast, widget, shortcod
 Requires at least: 2.8
 Tested up to: 3.0.3
 Stable tag: trunk
-Contributors: katzwebdesign
+Contributors: katzwebdesign,rjune
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=WP%20Wunderground%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
 
-Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
+Pulls weather forecasts from different providers and displays them elegantly via widget or shortcode.
 
 == Description ==
 
@@ -47,11 +47,14 @@ The plugin can be configured in two ways:
 
 <h4>Using the `[forecast]` Shortcode</h4>
 If you're a maniac for shortcodes, and you want all control all the time, this is a good way to use it.
+ *   list of supported parameters: source, location, measurement, caption,
+ *   numdays, linkdays, datelabel, todaylabel, cache, class, highlow, iconset.
 
 `[forecast location="Tokyo, Japan" caption="Weather for Tokyo" measurement='F' todaylabel="Today" datelabel="date('m/d/Y')" highlow='%%high%%&deg;/%%low%%&deg;' numdays="3" iconset="Cartoon" class="css_table_class"]`
 
 <strong>The shortcode supports the following settings:</strong>
 
+* `source="wunderground"` - Can be "wunderground" or "accuweather", more sources to come
 * `location="Tokyo, Japan"` - Use any city/state combo or US/Canada ZIP code
 * `caption="Weather for Tokyo"` - Add a caption to your table (it's like a title) 
 * `measurement='F'` - Choose Fahrenheit or Celsius by using "F" or "C"
@@ -59,6 +62,7 @@ If you're a maniac for shortcodes, and you want all control all the time, this i
 * `todaylabel="Today"` - Format how today's date appears ("Today" in this example)
 * `highlow='%%high%%&deg;/%%low%%&deg;'` - Format how the highs & low temps display ("85&deg;/35&deg;" in this example)
 * `numdays=3` - Change the number of days displayed in the forecast. Up to 6 day forecast.
+* `linkdays=false` - Make the daily forecast a link back to the source, true or on to enable, anything else disables
 * `iconset="Cartoon"` - Choose your iconset from one of 10 great options
 * `class="css_table_class"` - Change the CSS class of the generated forecast table
 
@@ -150,6 +154,12 @@ Version 1.1 of the plugin added forecast caching, so the forecast is only re-loa
 For previous versions, it is recommended to use a caching plugin (such as WP Super Cache) with this plugin; that way the forecast isn't re-loaded every page load.
 
 == Changelog ==
+
+= 2.0 =
+* Rewrote backend to allow collection of data from various weather sources(AccuWeather and Weather Underground Initially)
+* Added themes not tied to any weather service(Humanity)
+* Changed HTML to a list, with CSS to control it. *TODO* Need to make css user editable
+* Backwards compatibility needs tested.
 
 = 1.2.3 =
 * Fixed bug where Degree Measurement select drop-down would not show saved state as Celsius, even though it was working properly. (thanks <a href="http://www.OwlConcept.com">Robson</a>)

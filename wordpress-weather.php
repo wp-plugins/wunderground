@@ -59,7 +59,7 @@ class wordpressWeather extends WP_Widget {
 
 	function shortcode($atts) {
 		$settings = shortcode_atts( array(
-		            'source'      =>  "base"
+		            'source'      =>  "wunderground"
 		          , 'location'    =>  "46534"
 		          , 'measurement' =>  "F"
 		          , 'caption'     =>  "Knox, Indiana"
@@ -85,12 +85,9 @@ class wordpressWeather extends WP_Widget {
 				$wpw_obj = new wpw_backAccuWeather();
 				break;
 			case "wunderground":
+			default:
 				include("wpw-backwunderground.inc");
 				$wpw_obj = new wpw_backWunderground();
-				break;
-			default:
-				include("wpw-backbase.inc");
-				$wpw_obj = new wpw_backBase();
 				break;
 		}
 		$wpw_obj->setLocation(esc_html($settings['location']));
@@ -107,12 +104,12 @@ class wordpressWeather extends WP_Widget {
 		$wpw_obj->setCaption(esc_html($settings['caption']));
 		$wpw_obj->setDays(absint($settings['numdays']));
 		switch(strtolower($settings['linkdays'])) {
-			case "false":
-			case "off":
-				$wpw_obj->setDaysLink(false);
+			case "true":
+			case "on":
+				$wpw_obj->setDaysLink(true);
 				break;
 			default:
-				$wpw_obj->setDaysLink(true);
+				$wpw_obj->setDaysLink(false);
 				break;
 		}
 		$wpw_obj->setClass(absint($settings['class']));
