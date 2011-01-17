@@ -29,18 +29,34 @@ class wpw_backWunderground extends wpw_backBase {
 				$low  = (int)$day["low"]["celsius"];
 				$wind = -1;
 				$date = $day['date']['epoch'];
+error_log(__FUNCTION__ . " : " . $day['icon']);
 				switch($day['icon']) {
 					case "clear":
+					case "mostlysunny":
 						$condition = $GLOBALS['CONDITION']->CLEAR;
 						break;
 					case "partlycloudy":
+					case "partlysunny":
 						$condition = $GLOBALS['CONDITION']->PARTCLOUD;
 						break;
 					case "mostlycloudy":
+					case "cloudy":
 						$condition = $GLOBALS['CONDITION']->CLOUDY;
 						break;
+					case "sleet":
+					case "snow":
 					case "chancesnow":
+					case "flurries":
 						$condition = $GLOBALS['CONDITION']->SNOW;
+						break;
+					case "tstorms":
+						$condition = $GLOBALS['CONDITION']->RAIN;
+						break;
+					case "fog":
+						$condition = $GLOBALS['CONDITION']->FOG;
+						break;
+					case "hazy":
+						$condition = $GLOBALS['CONDITION']->HAZY;
 						break;
 					default:
 						$condition = $GLOBALS['CONDITION']->UNKNOWN;
