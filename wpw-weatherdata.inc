@@ -2,7 +2,7 @@
 require_once("enum.inc");
 $GLOBALS['TSCALE'] = new Enum('CELSIUS', 'FAHRENHEIT');   // Temp scale choices
 $GLOBALS['MSCALE'] = new Enum('METRIC', 'ENGLISH');       // Other measurements
-$GLOBALS['ORIENT'] = new Enum('VERT', 'HORIZ');           // Orientation (vertical / horitzontal
+$GLOBALS['ORIENT'] = new Enum('PORTRAIT', 'LANDSCAPE');   // Orientation (Portrait [vertical] / landscape[ horitzontal])
 $GLOBALS['ALIGN']  = new Enum('LEFT', 'RIGHT', 'CENTER'); // Alignment (left / right / center)
 $GLOBALS['CONDITION'] = new Enum(  'CLEAR',  'PARTCLOUD',  'CLOUDY', 'SNOW', 'RAIN', 'HAZY'
                                  , 'NCLEAR', 'NPARTCLOUD', 'NCLOUDY', 'NSNOW', 'NRAIN', 'NHAZY'

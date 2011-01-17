@@ -30,6 +30,9 @@ class wpw_backWunderground extends wpw_backBase {
 				$wind = -1;
 				$date = $day['date']['epoch'];
 				switch($day['icon']) {
+					case "clear":
+						$condition = $GLOBALS['CONDITION']->CLEAR;
+						break;
 					case "partlycloudy":
 						$condition = $GLOBALS['CONDITION']->PARTCLOUD;
 						break;
@@ -40,7 +43,7 @@ class wpw_backWunderground extends wpw_backBase {
 						$condition = $GLOBALS['CONDITION']->SNOW;
 						break;
 					default:
-						$condition = $GLOBALS['CONDITION']->SUNNY;
+						$condition = $GLOBALS['CONDITION']->UNKNOWN;
 						break;
 				}
 				$this->weather[] = new wpw_weatherData($high, $condition, $date, $low, $wind);

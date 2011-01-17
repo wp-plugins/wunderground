@@ -108,7 +108,7 @@ class wpw_backBase {
 		$this->displayDir    = $GLOBALS['ORIENT']->HORIZ;
 		$this->displayAlign  = $GLOBALS['ALIGN']->CENTER;
 		$this->highlow = '%%high%%&deg;/%%low%%&deg;';
-		$this->caption = 'Knox, Indiana';
+		$this->setCaption('Knox, Indiana');
 		$this->setDays(5);
 		$this->setDaysLink(true);
 		$this->setDateLabel('%%weekday%%');
@@ -223,13 +223,13 @@ class wpw_backBase {
 		fclose($fp);
 	}
 	function displayFeed() {
-		if($this->displayDir == $GLOBALS['ORIENT']->VERT) {
+		if($this->getOrient() == $GLOBALS['ORIENT']->PORTRAIT) {
 			$css="display:block;";
-			$class = "wpw-vert";
+			$class = "wpw-portrait";
 		}
 		else {
 			$css="display:inline-block;";
-			$class = "wpw-horitz";
+			$class = "wpw-landscape";
 		}
 		$output = "<div class='" . $this->getClass() . "'><h2>" . $this->getCaption() . "</h2><ul class='forecast'>";
 		$dayCount = 1;
@@ -283,6 +283,13 @@ class wpw_backBase {
 	function setDateLabel($tlabel) {
 		$this->datelabel = $tlabel;
 		return $this->datelabel;
+	}
+	function getOrient() {
+		return $this->displayDir;
+	}
+	function setOrient($orient) {
+		$this->displayDir = $orient;
+		return $this->displayDir;
 	}
 	function getTScale() {
 		return $this->displayTemp;
