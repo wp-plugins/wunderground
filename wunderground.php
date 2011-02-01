@@ -3,7 +3,7 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.2.3
+Version: 1.2.4
 Author: Katz Web Services, Inc.
 Author URI: http://www.seodenver.com/
 */
@@ -424,7 +424,7 @@ EOD;
 	    if(!$table || !$cache || isset($_REQUEST['cache'])) {
 			$xmlStr = @wp_remote_fopen(trim($this->url.urlencode($location)));
 			if(is_wp_error($xmlStr) || !$xml=simplexml_load_string($xmlStr)){
-				trigger_error('Error reading XML file',E_USER_ERROR);
+				#trigger_error('Error reading XML file',E_USER_ERROR);
 				return '<!-- WP Wunderground Error : Error reading XML file at '.$this->url.$this->location.' -->'.$content;
 			} elseif(empty($xml->simpleforecast->forecastday)) {
 				return '<!-- WP Wunderground Error : Weather feed was empty from '.$this->url.$this->location.' -->'.$content;
