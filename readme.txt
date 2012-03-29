@@ -152,7 +152,7 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 == Changelog ==
 
 = 1.2.5 = 
-* Fixed issue where checkbox state wasn't being reflected in settings.
+* Fixed issue where checkbox state wasn't being reflected in settings (as mentioned <a href="http://wordpress.org/support/topic/plugin-weather-forecast-wp-wunderground-not-saving-checkbox-settings" rel="nofollow">in this support thread</a>)
 
 = 1.2.4 = 
 * Removed error generation when XML file cannot be read (Error on line 427, <a href="http://wordpress.org/support/topic/506565" rel="nofollow">as reported</a>). Now, it just outputs an HTML comment error message.
@@ -192,7 +192,7 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 == Upgrade Notice ==
 
 = 1.2.5 = 
-* Fixed issue where checkbox state wasn't being reflected in settings.
+* Fixed issue where checkbox state wasn't being reflected in settings (as mentioned <a href="http://wordpress.org/support/topic/plugin-weather-forecast-wp-wunderground-not-saving-checkbox-settings" rel="nofollow">in this support thread</a>)
 
 = 1.2.4 =
 * Removed error generation when XML file cannot be read (Error on line 427, <a href="http://wordpress.org/support/topic/506565" rel="nofollow">as reported</a>). Now, it just outputs an HTML comment error message.
