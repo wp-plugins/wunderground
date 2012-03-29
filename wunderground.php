@@ -3,9 +3,9 @@
 Plugin Name: WP Wunderground
 Plugin URI: http://www.seodenver.com/wunderground/
 Description: Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
-Version: 1.2.4
+Version: 1.2.5
 Author: Katz Web Services, Inc.
-Author URI: http://www.seodenver.com/
+Author URI: http://www.katzwebservices.com/
 */
 
 class wp_wunderground {
@@ -158,7 +158,7 @@ class wp_wunderground {
                         		'content' => $this->buildIconSet()
                         );
                         
-                        $checked = (empty($this->showlink) || $this->showlink == 'yes') ? ' checked="checked"' : '';
+                        $checked = (empty($this->cache) || $this->cache == 'yes') ? ' checked="checked"' : '';
                         $rows[] = array(
                                 'id' => 'wp_wunderground_cache',
                                 'label' => __('Use Cache', 'wp_wunderground'),
@@ -205,7 +205,7 @@ class wp_wunderground {
     	if($this->showlink == 'yes') {
 			mt_srand(crc32($_SERVER['REQUEST_URI'])); // Keep links the same on the same page
 			
-			$urls = array('http://www.seodenver.com/wunderground/?ref=foot', 'http://wordpress.org/extend/plugins/wunderground/', 'http://www.denversnowremovalservice.com');
+			$urls = array('http://seodenver.com/wunderground/?ref=foot', 'http://wordpress.org/extend/plugins/wunderground/', 'http://www.denversnowremovalservice.com');
 			$url = $urls[mt_rand(0, count($urls)-1)];
 			$names = array('WP Wunderground', 'Wordpress Weather', 'Wunderground for WordPress');
 			$name = $names[mt_rand(0, count($names)-1)];
