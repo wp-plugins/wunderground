@@ -1,7 +1,7 @@
 === Weather Forecast - WP Wunderground ===
 Tags: weather, weather.com, wunderground, weatherbug, forecast, widget, shortcode, Yahoo weather, Yahoo! Weather, wp-weather, wp weather, local weather, weather man, weather widget, cool weather, accuweather, get weather, wordpress weather
 Requires at least: 2.8
-Tested up to: 3.5
+Tested up to: 3.5.1
 Stable tag: trunk
 Contributors: katzwebdesign
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=WP%20Wunderground%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
@@ -151,6 +151,9 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 
 == Changelog ==
 
+= 1.2.5.1 = 
+* Quick fix for icon issues: the icon images were broken.
+
 = 1.2.5 = 
 * Fixed issue where checkbox state wasn't being reflected in settings (as mentioned <a href="http://wordpress.org/support/topic/plugin-weather-forecast-wp-wunderground-not-saving-checkbox-settings" rel="nofollow">in this support thread</a>)
 
@@ -190,6 +193,9 @@ For previous versions, it is recommended to use a caching plugin (such as WP Sup
 * Initial launch
 
 == Upgrade Notice ==
+
+= 1.2.5.1 = 
+* Quick fix for icon issues: the icon images were broken.
 
 = 1.2.5 = 
 * Fixed issue where checkbox state wasn't being reflected in settings (as mentioned <a href="http://wordpress.org/support/topic/plugin-weather-forecast-wp-wunderground-not-saving-checkbox-settings" rel="nofollow">in this support thread</a>)
