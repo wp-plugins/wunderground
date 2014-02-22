@@ -106,7 +106,7 @@ class wp_wunderground {
                                 'id' => 'wp_wunderground_location',
                                 'label' => __('Location', 'wp_wunderground'),
                                 'content' => "<input type='text' name='wp_wunderground[location]' id='wp_wunderground_location' value='".esc_attr__($this->location)."' size='40' style='width:95%!important;' /><br /><small>The location can be entered as: ZIP code (US or Canadian); city state; city, state; city; state; country; airport code (3-letter or 4-letter); lat, long.</small>",
-                                'desc' => 'The location for the forcast.'
+                                'desc' => 'The location for the forecast.'
                             );
                         $rows[] = array(
                         		'id' => 'wp_wunderground_numdays',
@@ -441,7 +441,7 @@ EOD;
 					$icon_size = " width=\"$icon_size\" height=\"$icon_size\"";
 					$high = $high[$measurement];
 					$low = $low[$measurement];
-					$icon = '<img src="'.$icon_url.'"'.$icon_size.' alt="It is forcast to be '.$conditions.' at '.$date['pretty'].'" style="display:block;" />';
+					$icon = '<img src="'.$icon_url.'"'.$icon_size.' alt="It is forecast to be '.$conditions.' at '.$date['pretty'].'" style="display:block;" />';
 					$colwidth = round(100/$numdays, 2);
 
 					$temp = str_replace('%%high%%', $high, $highlow);
