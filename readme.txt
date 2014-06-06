@@ -1,16 +1,23 @@
 === Weather Forecast - WP Wunderground ===
 Tags: weather, weather.com, wunderground, weatherbug, forecast, widget, shortcode, Yahoo weather, Yahoo! Weather, wp-weather, wp weather, local weather, weather man, weather widget, cool weather, accuweather, get weather, wordpress weather
 Requires at least: 2.8
-Tested up to: 3.5.1
+Tested up to: 3.9.1
 Stable tag: trunk
-Contributors: katzwebdesign
+Contributors: katzwebdesign, katzwebservices
+License: GPLv2 or later
 Donate link:https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=zackkatz%40gmail%2ecom&item_name=WP%20Wunderground%20for%20WordPress&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
 
 Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
 
 == Description ==
 
-<blockquote><p>"[WP Wunderground] is by far, the best weather plugin i've ever seen on a CMS before. Not even Joomla has something so powerful, good looking and yet easy to implement."<br /><cite>Robson</cite></p></blockquote>
+> ### We're getting ready to release the next version of the plugin!
+> 
+> Brand-new templates, translation support, current conditions & more!
+>
+> __We need testers.__ Please [download the new version](https://github.com/katzwebservices/Wunderground/archive/master.zip), try it out, and if you find issues, [report the issues](https://widget.uservoice.com/omnibox/Csq4WQZTBPGtRqSZXIsNA?mode=contact&locale=en&forum_id=254985&contact_us=true&accent_color=007DBF&embed_type=popover&trigger_method=custom_trigger&menu=true&screenshot_enabled=false&contact_enabled=true&feedback_enabled=false&smartvote=false).
+> 
+> &rarr; __[Read more about the new version](https://github.com/katzwebservices/Wunderground#readme)__ &larr;
 
 <h3>Wunderground is the best WordPress weather site.</h3>
 
@@ -19,27 +26,14 @@ Wunderground.com has the most accurate and in-depth weather information. They're
 This plugin uses the Wunderground API to gather its accurate forecasts.
 
 <h3>If you want a great-looking weather forecast, use this plugin.</h3>
-__This is the best-looking weather forecast plugin for WordPress.__ It looks great on many different templates out of the box, including the default WP theme, TwentyTen.
+__This is the best-looking weather forecast plugin for WordPress.__ It looks great on many different templates out of the box.
 
-###Why would I want this plugin?
-This plugin is a perfect compliment for regional websites (about a city or town), personal websites where you want to share what the weather is like where you're blogging from, travel sites (show the weather at each stop!), <a href="http://www.denversnowremovalservice.com">snow removal</a> websites, yard services websites, and more.
+The WP Wunderground plugin uses [10 great-looking icon sets](http://www.wunderground.com/weather/api/d/docs?d=resources/icon-sets) from Wunderground.com.
 
-The WP Wunderground plugin uses 10 great-looking icon sets from Wunderground.com, including: 
+Check out the Screenshots tab for pictures.
 
-* <a href="http://icons-ecast.wxug.com/i/c/a/clear.gif" target="_blank" rel="nofollow">Default</a>
-* <a href="http://icons-ecast.wxug.com/i/c/b/clear.gif" target="_blank" rel="nofollow">Smiley</a>
-* <a href="http://icons-ecast.wxug.com/i/c/c/clear.gif" target="_blank" rel="nofollow">Generic</a>
-* <a href="http://icons-ecast.wxug.com/i/c/d/clear.gif" target="_blank" rel="nofollow">Old School</a>
-* <a href="http://icons-ecast.wxug.com/i/c/e/clear.gif" target="_blank" rel="nofollow">Cartoon</a>
-* <a href="http://icons-ecast.wxug.com/i/c/f/clear.gif" target="_blank" rel="nofollow">Mobile</a>
-* <a href="http://icons-ecast.wxug.com/i/c/g/clear.gif" target="_blank" rel="nofollow">Simple</a>
-* <a href="http://icons-ecast.wxug.com/i/c/h/clear.gif" target="_blank" rel="nofollow">Contemporary</a>
-* <a href="http://icons-ecast.wxug.com/i/c/i/clear.gif" target="_blank" rel="nofollow">Helen</a>
-* <a href="http://icons-ecast.wxug.com/i/c/k/clear.gif" target="_blank" rel="nofollow">Incredible</a>
+### Using the WP Wunderground Weather Plugin
 
-Check out the Screenshots section for pictures.
-
-<h3>Using the WP Wunderground Weather Plugin</h3>
 The plugin can be configured in two ways: 
 
 1. Configure the plugin in the admin's WP Wunderground settings page, then add `[forecast]` to your content where you want the forecast to appear.
