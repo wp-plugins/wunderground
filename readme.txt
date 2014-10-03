@@ -45,9 +45,13 @@ Learn about setting up the plugin, how to configure the shortcode, template over
 
 == Frequently Asked Questions ==
 
+= Where is the settings page? =
+
+Version 2.0 got rid of the default settings page; now shortcodes and widgets are configured individually.
+
 = My forecast looks different! =
 
-Version 2.0 made lots of changes as to how the forecast is displayed. You can download the last update of the "1.x" version of the plugin here: **Version 1.2.5.1](https://downloads.wordpress.org/plugin/wunderground.1.2.5.1.zip)**
+Version 2.0 made lots of changes as to how the forecast is displayed. You can download the last update of the "1.x" version of the plugin here: **[Version 1.2.5.1](https://downloads.wordpress.org/plugin/wunderground.1.2.5.1.zip)**
 
 = How do I use my own icons? =
 
@@ -77,6 +81,10 @@ Wunderground has been very gracious and has provided the plugin with free data -
 = Version 2.0 is a major update! =
 
 If you are upgrading the plugin, your forecast will look different. Version 2.x made lots of changes as to how the forecast is displayed. If you want to go back after upgrading, you can [download the previous version here](https://downloads.wordpress.org/plugin/wunderground.1.2.5.1.zip).
+
+= 2.0.6 on October 3 =
+* Added: Support for using using settings from Version 1.x as the defaults. This fixes the loss of your configuration if you use the `[forecast]` shortcode with no parameters.
+* Added: Lithuanian translation
 
 = 2.0.5 on October 2 =
 * Added: `datelabel` parameter for backward compatibility
@@ -167,6 +175,9 @@ If you are upgrading the plugin, your forecast will look different. Version 2.x 
 * Initial launch
 
 == Upgrade Notice ==
+
+= 2.0.6 on October 3 =
+* Added: Support for using using settings from Version 1.x as the defaults. This fixes the loss of your configuration if you use the `[forecast]` shortcode with no parameters.
 
 = 2.0.5 on October 2 =
 * Added: `datelabel` parameter for backward compatibility
