@@ -6,21 +6,23 @@ Stable tag: trunk
 Contributors: katzwebdesign, katzwebservices
 Donate link: https://katz.co
 
-Get accurate and beautiful weather forecasts powered by Wunderground.com for your content or your sidebar.
+Get accurate and beautiful weather forecasts powered by Wunderground.com
 
 == Description ==
 
-<blockquote><p>"[WP Wunderground] is by far, the best weather plugin I've ever seen on a CMS before. Not even Joomla has something so powerful, good looking and yet easy to implement."<br /><cite>Robson</cite></p></blockquote>
-
 ### Wunderground is the best WordPress weather site.
 
-Wunderground.com has the most accurate and in-depth weather information. They're also not evil corporate giants, and are weather geeks, which is nice.
-
-This plugin uses the Wunderground API to gather its accurate forecasts.
+Wunderground.com has the most accurate and in-depth weather information. They're also not evil corporate giants, and are weather geeks, which is nice. This plugin uses the Wunderground API for its accurate forecasts.
 
 ### If you want a great-looking weather forecast, use this plugin.
 
 __This is the best-looking weather forecast plugin for WordPress.__ It looks great on many different templates out of the box, including the default WP theme.
+
+### For more information, visit the [plugin information page](https://github.com/katzwebservices/Wunderground#reporting-issues)
+
+#### About Weather Underground
+
+> The beating heart of our brand is the generous and passionate community of weather enthusiasts that share weather data and content across our products. With over 34,000 of our members sending real-time data from their own personal weather stations, they provide us with the extensive data that makes our forecasts and products so unique.
 
 *Weather Underground is a registered trademark of The Weather Channel, LLC. both in the United States and internationally. The Weather Underground Logo is a trademark of Weather Underground, LLC.*
 
@@ -66,7 +68,7 @@ Please see the "Using your own template" section on the [Plugin Github page](htt
 This plugin is released under a GPL license. *Weather Underground is a registered trademark of The Weather Channel, LLC. both in the United States and internationally. The Weather Underground Logo is a trademark of Weather Underground, LLC.*
 
 = Do I need a Wunderground account? =
-Nope, no account needed.
+Wunderground has been very gracious and has provided the plugin with free data - you don't need your own account. If you want to use Wunderground data in your own application, [register for a Wunderground API account](http://www.wunderground.com/?apiref=5f97d1e033236c26).
 
 == Changelog ==
 
