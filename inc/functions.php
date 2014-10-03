@@ -54,7 +54,11 @@ function wunderground_parse_atts( $passed_atts, $shortcode = 'wunderground' ) {
 		'datelabel'	=> 'm/d',
 		'language' => wunderground_get_language(),
 		'showdata' => array('search', 'alerts', 'daynames','pop','icon','text', 'conditions', 'date'),
+		'hidedata' => array(),
 	);
+
+	// Use previous settings as defaults to better support backward compatibility
+	$defaults = wp_parse_args( get_option('wp_wunderground', array() ), $defaults );
 
 	if( !empty( $shortcode ) ) {
 		$atts = shortcode_atts( $defaults, $passed_atts, $shortcode );
@@ -230,11 +234,8 @@ function wunderground_get_date_format( $format = 'm/d' ) {
 
 // Backward compatibility
 
-	// Replace placeholder tags with PHP date format
-	$format = str_replace( '%%weekday%%', 'l', $format );
-	$format = str_replace( '%%day%%', 'j', $format );
-	$format = str_replace( '%%month%%', 'm', $format );
-	$format = str_replace( '%%year%%', 'Y', $format );
+	// Remove placeholder tags from v1
+	$format = str_replace( array('%%weekday%%', '%%day%%', '%%month%%', '%%year%%' ), '', $format );
 
 	// Then we look for the php date() function by matching:
 	// date('[stuff in here]') or date("[stuff in here]")
@@ -243,6 +244,10 @@ function wunderground_get_date_format( $format = 'm/d' ) {
 	}
 
 // End backward compatibility
+
+	if( empty( $format ) ) {
+		$format = $default_format;
+	}
 
 	return apply_filters( 'wunderground_date_format', $format );
 }
