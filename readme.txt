@@ -18,7 +18,11 @@ Wunderground.com has the most accurate and in-depth weather information. They're
 
 __This is the best-looking weather forecast plugin for WordPress.__ It looks great on many different templates out of the box, including the default WP theme.
 
-### For more information, visit the [plugin information page](https://github.com/katzwebservices/Wunderground#reporting-issues)
+### For more information, visit the [plugin information page](https://github.com/katzwebservices/Wunderground#setting-up-the-plugin)
+
+Learn about setting up the plugin, how to configure the shortcode, template overrides and more on the [plugin info page](https://github.com/katzwebservices/Wunderground#setting-up-the-plugin).
+
+-------------------
 
 #### About Weather Underground
 
@@ -30,16 +34,14 @@ __This is the best-looking weather forecast plugin for WordPress.__ It looks gre
 
 1. Upload plugin files to your plugins folder, or install using WordPress' built-in Add New Plugin installer
 1. Activate the plugin
-1. Go to the plugin settings page (under Settings > WP Wunderground)
-1. Configure the settings on the page. (Instructions for some setting configurations are on the box to the right)
-1. Click Save Changes.
-1. When editing posts, use the `[wunderground]` "shortcode" as described on the plugin page's [Shortcode Parameter](https://github.com/katzwebservices/Wunderground#shortcode-parameters) guide.
+1. To add a forecast to your sidebar, go to Appearance, then Widgets. Click on the Wunderground widget and add it to a  sidebar.
+1. To embed a forecast in a post or page, use the `[wunderground]` "shortcode" as described on the plugin page's [Shortcode Parameter](https://github.com/katzwebservices/Wunderground#shortcode-parameters) guide.
 
 == Screenshots ==
 
 1. Widget configuration
-2. Vertical Table layout
-3. Horizontal Table layout
+1. Vertical Table layout
+1. Horizontal Table layout
 
 == Frequently Asked Questions ==
 
