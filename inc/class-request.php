@@ -117,7 +117,17 @@ class Wunderground_Request {
 
 	private function set_results() {
 
-		$url = $this->build_url();
+		try {
+
+			$url = $this->build_url();
+
+		} catch( Exception $e ) {
+
+			Wunderground_Plugin::log_debug('Wunderground_Request had no location set. Returning because of exception.' );
+
+			return;
+		}
+
 
 		$response = self::request( $url, $this->cache );
 
@@ -178,7 +188,7 @@ class Wunderground_Request {
 		http://www.wunderground.com/personal-weather-station/dashboard?ID=I75003PA1*/
 
 		// If the location is a link, we don't need to turn it...wait for it...into a link.
-		$location_path = preg_match( '/\/q\//ism', $location ) ? $location : '/q/'.urlencode($location);
+		$location_path = preg_match( '/\/q\//ism', $location ) ? $location : '/q/'.rawurlencode($location);
 
 		// Combine into one URL
 		$url = sprintf('%s/%s/v:2.0/%s/%s/%s%s.json', $this->apiUrl, $this->apiKey, $language, $units, $features, $location_path );
@@ -239,6 +249,10 @@ class Wunderground_Request {
 		return $response;
 	}
 
+	/**
+	 * Set the language for the forecast
+	 * @param string $language [description]
+	 */
 	private function set_language( $language = 'EN' ) {
 
 		// If the helper function doesn't exist for some reason, don't use it

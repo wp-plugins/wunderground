@@ -61,8 +61,8 @@ class Wunderground_Forecast_Widget extends WP_Widget {
 	/**
 	 * Generate and output the widget
 	 *
-	 * Uses template file `widget-related-listings.php` to generate the output
-	 * @version 2.0.44
+	 * @see Wunderground_Template in class-template.php to generate data
+	 *
 	 * @param  array $args     Widget args
 	 * @param  array $instance Widget settings
 	 */
@@ -94,6 +94,8 @@ class Wunderground_Forecast_Widget extends WP_Widget {
 		$data['location_title'] = empty( $instance['location_title'] ) ? $data['location'] : $instance['location_title'];
 		$data['wunderground'] = new KWS_Wunderground( $request );
 
+		$data['datelabel'] = isset( $data['datelabel'] ) ? $data['datelabel'] : wunderground_get_date_format();
+
 		// PWS is offline or something.
 		if( !empty( $data['wunderground']->response->error )) {
 			do_action('wunderground_log_debug', 'There was an error in the Wunderground response:', $data['wunderground']->response->error );
@@ -106,6 +108,9 @@ class Wunderground_Forecast_Widget extends WP_Widget {
 			echo $before_title . $title . $after_title;
 		}
 
+		/**
+		 * @see Wunderground_Template in class-template.php
+		 */
 		do_action('wunderground_render_template', $instance['layout'], $data );
 
 		echo $after_widget;
@@ -213,7 +218,7 @@ class Wunderground_Forecast_Widget extends WP_Widget {
 							<img src="%s/clear.gif" alt="" />
 						</span>
 					</label>
-				</li>', $name, $this->get_field_name('iconset'), $this->get_field_id('iconset'), $checked, $name, wunderground_get_icon( $name ) );
+				</li>', $name, $this->get_field_name('iconset'), $this->get_field_id('iconset'), $checked, esc_html( $name ), wunderground_get_icon( $name ) );
 			}
 		?>
 			</ul>
@@ -265,7 +270,7 @@ class Wunderground_Forecast_Widget extends WP_Widget {
 					),
 					'alerts' => array(
 						'label' => __('Weather Alerts &amp; Warnings', 'wunderground'),
-						'description' => __('This functionality is currently not working; we are working with Wunderground.com to restore it.', 'wunderground'),
+						'description' => __('Display Severe Weather alerts and warnings.', 'wunderground'),
 					),
 				);
 				foreach ($boxes as $value => $box) {
